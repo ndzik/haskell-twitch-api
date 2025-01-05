@@ -35,7 +35,7 @@ library
                             -fno-warn-unticked-promoted-constructors
                             -fno-warn-orphans
 
-    build-depends:      base ^>=4.14.3.0
+    build-depends:      base ^>=4.17
                         , aeson
                         , text
                         , http-api-data

@@ -17,5 +17,5 @@ data Emote = Emote
   }
   deriving (Show)
 
-$(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("message_" :: String)) . camelTo2 '_'} ''Message)
 $(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("emote_" :: String)) . camelTo2 '_'} ''Emote)
+$(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("message_" :: String)) . camelTo2 '_'} ''Message)

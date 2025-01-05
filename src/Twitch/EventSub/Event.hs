@@ -27,6 +27,45 @@ import Twitch.EventSub.Product
 import Twitch.EventSub.Response
 import Twitch.EventSub.Reward
 
+data StreamType
+  = Live
+  | Playlist
+  | WatchParty
+  | Premiere
+  | Rerun
+  deriving (Show)
+
+$(deriveJSON defaultOptions {constructorTagModifier = camelTo2 '_'} ''StreamType)
+
+data GoalsType
+  = Follow
+  | Subscription
+  | SubscriptionCount
+  | NewSubscription
+  | NewSubscriptionCount
+  deriving (Show)
+
+$(deriveJSON defaultOptions {constructorTagModifier = camelTo2 '_'} ''GoalsType)
+
+data EventStatus
+  = Unfulfilled
+  | Unknown
+  | Fulfilled
+  | Canceled
+  deriving (Show)
+
+$(deriveJSON defaultOptions {constructorTagModifier = camelTo2 '_'} ''EventStatus)
+
+data Reward = Reward
+  { rrewardId :: !Text,
+    rrewardTitle :: !Text,
+    rrewardCost :: !Int,
+    rrewardPrompt :: !Text
+  }
+  deriving (Show)
+
+$(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("rreward_" :: String)) . camelTo2 '_'} ''Reward)
+
 data Event
   = ChannelBan
       { eventUserId :: !Text,
@@ -439,41 +478,10 @@ data Event
       }
   deriving (Show)
 
-data StreamType
-  = Live
-  | Playlist
-  | WatchParty
-  | Premiere
-  | Rerun
-  deriving (Show)
-
-data GoalsType
-  = Follow
-  | Subscription
-  | SubscriptionCount
-  | NewSubscription
-  | NewSubscriptionCount
-  deriving (Show)
-
-data EventStatus
-  = Unfulfilled
-  | Unknown
-  | Fulfilled
-  | Canceled
-  deriving (Show)
-
 data Amount = Amount
   { amountValue :: !Int,
     amountDecimalPlaces :: !Int,
     amountCurrency :: !Text
-  }
-  deriving (Show)
-
-data Reward = Reward
-  { rrewardId :: !Text,
-    rrewardTitle :: !Text,
-    rrewardCost :: !Int,
-    rrewardPrompt :: !Text
   }
   deriving (Show)
 
@@ -491,12 +499,12 @@ parseEventUsingCondition o ChannelUpdateCondition {} =
 parseEventUsingCondition o ChannelFollowCondition {} =
   ChannelFollow
     <$> o .: "user_id"
-      <*> o .: "user_login"
-      <*> o .: "user_name"
-      <*> o .: "broadcaster_user_id"
-      <*> o .: "broadcaster_user_login"
-      <*> o .: "broadcaster_user_name"
-      <*> o .: "followed_at"
+    <*> o .: "user_login"
+    <*> o .: "user_name"
+    <*> o .: "broadcaster_user_id"
+    <*> o .: "broadcaster_user_login"
+    <*> o .: "broadcaster_user_name"
+    <*> o .: "followed_at"
 parseEventUsingCondition o ChannelSubscribeCondition {} =
   ChannelSubscribe
     <$> o .: "user_id"
@@ -897,10 +905,6 @@ instance FromJSON Event where
       (.:) @ResponseObject o "subscription"
         >>= parseEventUsingCondition evo . responseobjectCondition
 
-$(deriveJSON defaultOptions {constructorTagModifier = camelTo2 '_'} ''StreamType)
-$(deriveJSON defaultOptions {constructorTagModifier = camelTo2 '_'} ''EventStatus)
-$(deriveJSON defaultOptions {constructorTagModifier = camelTo2 '_'} ''GoalsType)
-$(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("rreward_" :: String)) . camelTo2 '_'} ''Reward)
 $(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("amount_" :: String)) . camelTo2 '_'} ''Amount)
 $( deriveToJSON
      defaultOptions

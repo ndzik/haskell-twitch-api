@@ -1,7 +1,7 @@
 module Twitch.EventSub.Contribution
   ( LastContribution (..),
     TopContribution (..),
-    ContributionType(..),
+    ContributionType (..),
   )
 where
 
@@ -29,6 +29,6 @@ data LastContribution = LastContribution
 
 data ContributionType = Bits | Subscription deriving (Show)
 
+$(deriveJSON defaultOptions {constructorTagModifier = camelTo2 '_'} ''ContributionType)
 $(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("topcontribution_" :: String)) . camelTo2 '_'} ''TopContribution)
 $(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("lastcontribution_" :: String)) . camelTo2 '_'} ''LastContribution)
-$(deriveJSON defaultOptions {constructorTagModifier = camelTo2 '_'} ''ContributionType)

@@ -23,5 +23,5 @@ data TopPredictor = TopPredictor
   }
   deriving (Show)
 
-$(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("outcome_" :: String)) . camelTo2 '_'} ''Outcome)
 $(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("toppredictor_" :: String)) . camelTo2 '_'} ''TopPredictor)
+$(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("outcome_" :: String)) . camelTo2 '_'} ''Outcome)

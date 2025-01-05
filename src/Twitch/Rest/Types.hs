@@ -139,11 +139,11 @@ data GetUserInformation = GetUserInformation
   }
   deriving (Show)
 
-$(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("getcustomrewardsdata_" :: String)) . camelTo2 '_'} ''GetCustomRewardsData)
 $(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("maxperstreamsetting_" :: String)) . camelTo2 '_'} ''MaxPerStreamSetting)
 $(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("maxperuserperstreamsetting_" :: String)) . camelTo2 '_'} ''MaxPerUserPerStreamSetting)
 $(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("globalcooldownsetting_" :: String)) . camelTo2 '_'} ''GlobalCooldownSetting)
 $(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("getuserinformation_" :: String)) . camelTo2 '_'} ''GetUserInformation)
+$(deriveJSON defaultOptions {fieldLabelModifier = drop (length ("getcustomrewardsdata_" :: String)) . camelTo2 '_'} ''GetCustomRewardsData)
 $( deriveJSON
      defaultOptions
        { fieldLabelModifier = drop (length ("createcustomrewardbody_" :: String)) . camelTo2 '_',
